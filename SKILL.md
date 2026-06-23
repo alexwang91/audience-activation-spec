@@ -2,14 +2,14 @@
 
 ## Purpose
 
-Generate a country-specific audience activation plan from a simple input such as:
+Generate an evidence-aware, country-specific audience activation plan from a simple input such as:
 
 ```text
 Country: Hungary
 Audience: people interested in cycling
 ```
 
-The skill converts a research or HTE audience insight into an executable media and operations plan. The output should explain which mainstream channels matter in the target country and how to configure each channel so the team can reach the audience through paid media, organic operations, partnerships, and owned channels.
+The skill converts research signals, HTE results, or consumer insights into an executable media and operations plan. The output should explain which mainstream channels matter in the target country and how to configure each channel so the team can reach the audience through paid media, organic operations, partnerships, creators, communities, CRM, and owned channels.
 
 ## When to use this skill
 
@@ -21,6 +21,7 @@ Typical prompts:
 - "How do I reach Gen Z skincare buyers in Indonesia?"
 - "Turn this HTE segment into a media plan for Brazil."
 - "For Germany + vegan parents, give me all major channels and settings."
+- "Use my synthetic persona findings to design activation tests for Mexico."
 
 ## Required input
 
@@ -49,23 +50,60 @@ business_context:
   excluded_channels: <optional>
   must_include_channels: <optional>
   compliance_constraints: <optional>
+  research_signals: <optional, structured list>
   hte_findings: <optional, structured or free text>
 ```
 
+## Research signal model
+
+Internally distinguish three layers:
+
+1. **Research signal**: the source evidence or input claim, such as HTE, synthetic panel, LLM interview, survey, experiment, sales behavior, click behavior, or expert/team assumption.
+2. **Evidence label**: the level of support and the claim type the signal can safely justify.
+3. **Platform proxy**: the ad platform, content channel, CRM, creator, publisher, retail, or community mechanism that can actually be executed.
+
+Allowed source types:
+
+- `synthetic_panel`
+- `llm_interview`
+- `survey`
+- `experiment`
+- `sales_or_click_behavior`
+- `expert_or_team_assumption`
+
+Allowed evidence labels:
+
+- `descriptive_segment_lift`: observed or reported difference between segments, without a causal claim.
+- `preference_heterogeneity`: different stated or inferred preferences across segments.
+- `behavioral_lift`: observed lift in sales, clicks, conversion, retention, or engagement.
+- `causal_hte`: treatment effect heterogeneity supported by a real experiment, randomized test, or credible quasi-experimental design.
+- `uplift_targeting_label`: a deployable targeting or scoring label built from uplift modeling and validated on real behavior.
+
+Evidence rules:
+
+- Do not use HTE as a generic synonym for any subgroup difference.
+- Do not call a synthetic panel, LLM interview, survey-only difference, or team assumption `causal_hte`.
+- Do not describe synthetic consumers or LLM interview participants as real consumer behavior.
+- Use synthetic, LLM, survey, and expert signals as hypotheses unless calibrated against real behavior or experimental evidence.
+- Treat first-party behavioral data as observed behavior, not causal evidence, unless a treatment/control or credible causal design exists.
+- Treat platform audiences as proxy signals unless deterministic, consented first-party lists are supplied.
+
+See `references/research-signal-contract.md` for the full evidence contract.
+
 ## Core principle
 
-HTE or consumer research usually identifies high-response people and message preferences. Ad platforms usually require executable proxy signals. The central task is to build a mapping layer:
+The central task is to build an evidence-aware mapping layer:
 
 ```text
-HTE insight / consumer trait
+research signal
+→ evidence label
+→ activation-safe audience interpretation
 → platform-recognizable proxy signal
-→ campaign setting
-→ creative angle
-→ measurement plan
-→ experiment cell
+→ campaign / operations setup
+→ validation experiment
 ```
 
-Never claim that a platform can deterministically reach every person in a behavioral group unless the user supplies a deterministic first-party audience list. Use language such as "proxy", "signal", "segment", "approximation", "contextual placement", and "validation experiment".
+Never claim that a platform can deterministically reach every person in a behavioral group unless the user supplies a deterministic, consented first-party audience list. Use language such as "proxy", "signal", "segment", "approximation", "contextual placement", "hypothesis", and "validation experiment".
 
 ## Output contract
 
@@ -73,7 +111,15 @@ Return the answer in this structure.
 
 ### 1. Activation brief
 
-Summarize the country, audience, goal, main assumptions, and the activation thesis.
+Summarize the country, audience, goal, main assumptions, activation thesis, and evidence handling posture.
+
+Required content:
+
+- country
+- audience
+- business goal, if known
+- activation thesis
+- evidence handling note, such as: "Synthetic, LLM, survey, and expert signals are treated as hypotheses until validated by behavioral or experimental evidence."
 
 ### 2. Market and channel assumptions
 
@@ -85,6 +131,7 @@ State the assumptions used for:
 - ecommerce or offline behavior
 - likely purchase journey
 - known regulatory or platform policy constraints
+- evidence availability and calibration level
 
 When facts may have changed, verify them with current sources and cite them. Use official platform documentation for channel features whenever possible.
 
@@ -113,8 +160,8 @@ Cover these channel families unless clearly irrelevant or unavailable:
 
 For each country, adapt the concrete platforms. Examples:
 
-- Google Search, YouTube, Google Display, Performance Max
-- Meta: Facebook, Instagram, WhatsApp surfaces where relevant
+- Google Search, YouTube, Google Display, Demand Gen, Performance Max
+- Meta: Facebook, Instagram, Messenger, WhatsApp surfaces where relevant
 - TikTok
 - LinkedIn for B2B or professional audiences
 - Reddit, Pinterest, Snapchat, X only when audience-country fit is plausible
@@ -122,14 +169,23 @@ For each country, adapt the concrete platforms. Examples:
 - LINE, KakaoTalk, WeChat, Telegram, WhatsApp, Messenger, Discord, Viber, or local forums where relevant
 - Local search or media platforms such as Baidu, Naver, Yandex, Seznam, Yahoo Japan, Zalo, VK, or country-specific publishers where relevant
 
-### 4. HTE-to-platform mapping
+### 4. Research-signal-to-platform mapping
 
-Build a mapping table.
+Build an evidence-aware mapping table.
 
 Required columns:
 
-| HTE / audience signal | Consumer meaning | Platform proxy | Channels where usable | Caveats |
-|---|---|---|---|---|
+| Research signal | Evidence label | Consumer meaning | Platform proxy | Channels where usable | Required validation | Caveats |
+|---|---|---|---|---|---|---|
+
+Rules:
+
+- If no structured research signals are supplied, create explicit working hypotheses and label them `expert_or_team_assumption` or `descriptive_segment_lift` only when justified.
+- Mark synthetic panels and LLM interviews as hypothesis-generating unless the user provides calibration against observed behavior.
+- Mark survey results as stated preference or descriptive evidence unless tied to behavior.
+- Mark behavioral data as observed behavior, not causal treatment effect, unless an experiment or quasi-experiment exists.
+- Reserve `causal_hte` for real experiments, treatment/control designs, randomized tests, or credible quasi-experiments.
+- For each mapping row, name the platform proxy that can be executed and the validation test needed before scale.
 
 Examples of platform proxy signals:
 
@@ -167,6 +223,10 @@ setup:
   landing_or_destination: <landing page, app page, marketplace PDP, lead form, community, store>
   measurement: <primary KPI, secondary KPI, pixel / conversion / UTM requirements>
   operating_cadence: <daily / weekly tasks>
+evidence_basis:
+  strongest_signal: <research signal id or assumption>
+  evidence_label: <allowed evidence label>
+  activation_safety: <hypothesis | observed_behavior | causal_evidence | validated_uplift_label>
 risks:
   - <risk or limitation>
 validation_test: <experiment that proves or rejects the setup>
@@ -188,6 +248,7 @@ Include at least:
 - one contextual or placement-based test
 - one creator / community / publisher test when relevant
 - one retargeting or first-party data test when possible
+- one validation test for any synthetic, LLM, survey, or expert-derived targeting idea before scale
 
 ### 7. Measurement and instrumentation
 
@@ -200,7 +261,8 @@ Specify:
 - landing page segmentation
 - holdout or incrementality test where feasible
 - reporting cadence
-- how results should feed back into HTE or segmentation
+- evidence label update rules
+- how results should feed back into HTE, segmentation, or uplift modeling
 
 Recommended UTM schema:
 
@@ -217,7 +279,7 @@ utm_term=<keyword_or_segment>
 Provide a phased plan.
 
 ```text
-Phase 0: tracking, landing page, consent, baseline
+Phase 0: tracking, landing page, consent, baseline, evidence audit
 Phase 1: highest-intent channels
 Phase 2: interest and contextual expansion
 Phase 3: creators, communities, partnerships
@@ -235,6 +297,9 @@ Before finalizing, check:
 - Claims about platform availability or targeting features are current or labeled as assumptions.
 - The output does not imply deterministic access to behavioral audiences unless first-party data exists.
 - Compliance-sensitive targeting is handled conservatively.
+- Synthetic / LLM / survey / expert signals are visibly separated from observed behavior and causal evidence.
+- `causal_hte` appears only when the plan cites experiment, treatment/control, randomized test, or quasi-experiment evidence.
+- Every research-derived targeting idea has a validation experiment before scale.
 
 ## Channel-specific guidance
 
@@ -249,6 +314,7 @@ Include:
 - local-language terms and English spillover terms where relevant
 - city or region campaigns when local behavior differs
 - conversion bidding only when tracking is reliable
+- evidence basis for keyword clusters, such as search behavior, survey-stated need, synthetic hypothesis, or HTE result
 
 ### Google Display, YouTube, Demand Gen, and Performance Max
 
@@ -262,6 +328,7 @@ Include:
 - audience signals for automated campaigns
 - separate remarketing pools
 - creative variants by motivation, not just demographics
+- a note that audience signals guide automated systems but do not hard-restrict delivery unless the platform explicitly supports restriction
 
 ### Meta: Facebook, Instagram, Messenger, WhatsApp surfaces
 
@@ -276,6 +343,7 @@ Include:
 - excluded purchasers or irrelevant regions
 - Reels, Stories, Feed, and click-to-message variants when relevant
 - community or group operations if organic presence matters
+- validation plan for interest proxies because interest labels are probabilistic
 
 ### TikTok
 
@@ -289,6 +357,7 @@ Include:
 - local-language captions
 - landing or in-app conversion flow
 - rapid creative testing cadence
+- creator/content signal handling, especially when research comes from synthetic or LLM interviews
 
 ### Retail media and marketplaces
 
@@ -302,6 +371,7 @@ Include:
 - product feed quality
 - ratings, reviews, price, delivery, and promotion levers
 - search rank and retail conversion metrics
+- observed sales or click behavior as the preferred evidence basis when available
 
 ### Influencers, creators, and KOLs
 
@@ -314,6 +384,7 @@ Include:
 - brief structure
 - content rights and paid amplification rights
 - coupon, affiliate link, UTM, or post-purchase survey measurement
+- a validation plan that distinguishes creator engagement from actual conversion behavior
 
 ### Messaging and community operations
 
@@ -327,6 +398,7 @@ Include:
 - content calendar
 - rules for promotions vs support vs education
 - referral or ambassador mechanics
+- community rules and privacy constraints
 
 ### SEO and content
 
@@ -338,6 +410,7 @@ Include:
 - comparison, guide, review, and local intent pages
 - schema, internal links, and content refresh cadence
 - country-specific SERP features
+- evidence source for content angles
 
 ### CRM and retargeting
 
@@ -351,7 +424,8 @@ Include:
 - suppression rules
 - frequency and fatigue controls
 - winback and cross-sell paths
+- observed behavior vs causal uplift distinction
 
 ## Response style
 
-Be concrete. Prefer parameter tables, setup blocks, experiment matrices, and country-specific examples. Avoid generic statements such as "use social media" without specifying the platform, setup, audience proxy, creative, and measurement.
+Be concrete. Prefer parameter tables, setup blocks, experiment matrices, and country-specific examples. Avoid generic statements such as "use social media" without specifying the platform, setup, audience proxy, creative, evidence basis, validation test, and measurement.

@@ -13,11 +13,17 @@ business_context:
   target_city_or_region: national delivery, with Budapest as a priority market
   languages: Hungarian primary, English secondary test
   first_party_data: website visitors and cart abandoners
-  hte_findings:
-    - urban commuters respond to convenience and time saving
-    - e-bike users respond to lower effort and longer trip distance
-    - sport cyclists respond to performance and durability
-    - safety-conscious buyers respond to helmets, lights, and locks bundles
+  research_signals:
+    - signal_id: syn_hu_cycling_001
+      source_type: synthetic_panel
+      evidence_label: preference_heterogeneity
+      calibration_level: uncalibrated
+      finding: Synthetic respondents who described themselves as urban commuters preferred convenience and safety messages.
+    - signal_id: beh_hu_cycling_002
+      source_type: sales_or_click_behavior
+      evidence_label: behavioral_lift
+      calibration_level: behaviorally_calibrated
+      finding: Website visitors who viewed helmet and light pages showed higher add-to-cart rates than generic category visitors.
 ```
 
 ## 1. Activation brief
@@ -28,486 +34,264 @@ business_context:
 | Audience | People interested in cycling |
 | Business goal | Ecommerce purchase |
 | Funnel stage | Conversion with consideration support |
-| Primary activation thesis | Use search and marketplace-like intent to capture active buyers, then use Google, Meta, TikTok, creators, publishers, and retargeting to expand to cycling-interest and urban-mobility audiences. |
-| Main assumptions | Hungarian-language creative is the default. Budapest deserves separate budget control. Interest audiences are proxies and need validation. |
+| Primary activation thesis | Capture high-intent cycling demand through Search and retargeting, then validate interest, contextual, creator, and publisher proxies before scaling. |
+| Evidence handling | Synthetic signals are treated as hypotheses; website behavior can prioritize tests but does not prove causality without treatment/control evidence. |
+| Main assumptions | Hungarian creative is primary. Budapest receives separate reporting and budget review. |
 
 ## 2. Market and channel assumptions
 
 | Assumption | Working view | Confidence | Validation needed |
 |---|---|---|---|
-| Primary language | Hungarian first; English as a small test for expats, tourists, or international-brand search behavior | Medium | Check account search terms and landing-page conversion by language |
-| Main region | National delivery with Budapest separated for optimization | Medium | Check order density and shipping economics |
-| Purchase journey | Search for products, compare price and reviews, then buy online or visit a specialist store | Medium | Validate with analytics, search terms, and post-purchase survey |
-| Compliance | Avoid sensitive personal targeting. Use behavior, intent, contextual, and first-party consented audiences | High | Confirm platform policy and local privacy requirements before launch |
+| Primary language(s) | Hungarian first, English as a limited test | Medium | Check conversion rate by landing-page language |
+| Main regions / cities | National delivery, Budapest split for reporting | Medium | Check order density and shipping margin |
+| Dominant digital behaviors | Search, social video, marketplace comparison, specialist cycling content | Medium | Validate with analytics and search-term reports |
+| Purchase journey | Users search for gear, compare safety, price, reviews, and delivery | Medium | Confirm through post-purchase survey and funnel data |
+| Evidence availability | Synthetic panel hypothesis plus website visitor behavior | Medium | Validate synthetic-derived angles through small-budget tests |
+| Compliance / policy constraints | Use consented first-party lists and platform proxy signals conservatively | High | Review current platform policy before launch |
 
 ## 3. Mainstream reach-channel map
 
 | Channel | Role in funnel | Why it fits this audience | Reach mechanism | Execution priority |
 |---|---|---|---|---|
-| Google Search | Conversion | Captures users actively searching for bikes, e-bikes, helmets, locks, lights, and repair-related terms | Hungarian keywords, match types, negative keywords, Shopping/PMax if feed exists | High |
-| Google YouTube / Demand Gen / Display | Awareness and consideration | Reaches cycling content viewers, e-bike researchers, urban commuters, and outdoor-interest users | Custom segments, topics, placements, video creative, remarketing | High |
-| Performance Max | Conversion scaling | Uses feed, creative assets, and audience signals to scale across Google inventory | Audience signals, search themes, product feed, conversion bidding | High if tracking and feed are ready |
-| Meta: Facebook and Instagram | Awareness, retargeting, social proof | Broad reach, visual product formats, cycling lifestyle content, retargeting | Broad, interest proxies, lookalikes, Reels, Stories, Feed, catalog ads | High |
-| TikTok | Discovery | Works for short-form product demos, commuting hacks, safety tips, and creator-led education | Interest/behavior proxies, Spark Ads, creator briefs, short hooks | Medium |
-| Local cycling publishers and forums | Consideration | Cycling enthusiasts trust specialist media and communities | Native ads, newsletters, sponsored articles, managed placements, forum participation | Medium |
-| Influencers / creators | Trust and demand creation | Local cyclists, commuters, e-bike reviewers, and sports creators can demonstrate use cases | Creator posts, affiliate links, whitelisting, discount codes | Medium |
-| Marketplaces / retail media | Conversion | Users compare price, reviews, delivery, and availability | Sponsored listings, category ads, product feed optimization | Medium, depending on distribution |
-| SEO / content | Durable intent | Local-language guides can capture search demand without paid media dependency | Hungarian keyword clusters, comparison pages, buying guides, local cycling guides | Medium |
-| CRM / retargeting | Conversion and retention | Website visitors and cart abandoners are higher-intent than cold audiences | Email, SMS, app push, Google/Meta/TikTok retargeting, cart recovery | High if consented data exists |
-| Partnerships / offline | Trust and local access | Cycling clubs, repair shops, events, and commuter groups aggregate the audience | Affiliate partnerships, event booths, store collaborations, referral codes | Medium |
+| Google Search | Conversion | Captures active demand for bikes, e-bikes, helmets, locks, lights, and accessories | Hungarian keywords, match types, negatives, shopping feed if available | High |
+| Google YouTube / Demand Gen / Display | Awareness and consideration | Reaches users consuming cycling, outdoor, and urban mobility content | Custom segments, contextual topics, managed placements, remarketing | High |
+| Performance Max | Conversion scaling | Can scale feed and asset groups after tracking works | Audience signals, search themes, product feed, conversion value bidding | High |
+| Meta: Facebook and Instagram | Awareness and retargeting | Strong visual formats for commuting, safety, and product bundles | Broad targeting, interest proxies, catalog ads, engagement retargeting | High |
+| TikTok | Discovery | Short-form demos can test commuting and safety hooks | Interest proxies, creator content, video engagement retargeting | Medium |
+| Local cycling publishers | Consideration | Specialist readers have category interest and trust niche media | Sponsored guides, newsletter placement, native ads | Medium |
+| Influencers / creators | Trust | Local cycling creators can demonstrate gear in context | Creator briefs, affiliate links, paid amplification rights | Medium |
+| Marketplaces / retail media | Conversion | Marketplace shoppers compare price, reviews, and availability | Sponsored listings, product feed quality, category search ads | Medium |
+| SEO / content | Durable intent | Hungarian guides can capture research and comparison demand | Buying guides, comparison pages, local cycling content | Medium |
+| CRM / retargeting | Conversion and retention | Website visitors and cart abandoners are higher-intent first-party audiences | Email, dynamic retargeting, suppression rules, lifecycle triggers | High |
+| Partnerships / offline | Trust and reach | Clubs, repair shops, and events aggregate cycling-interested users | Affiliate codes, event booths, shop collaborations | Medium |
 
-## 4. HTE-to-platform mapping
+## 4. Research-signal-to-platform mapping
 
-| HTE / audience signal | Consumer meaning | Platform proxy | Channels where usable | Caveats |
-|---|---|---|---|---|
-| Interested in cycling | General category affinity | Cycling keywords, cycling interests, cycling content topics, bicycle publisher URLs, cycling creator audiences | Google, Meta, TikTok, YouTube, Display, creators | Interest signals are probabilistic, not deterministic |
-| Urban commuter | Uses bike for transport | Keywords around city bike, commuter bike, bike lock, bike lights, Budapest cycling; creative about faster city movement | Search, Meta, TikTok, SEO, creators | Platform may not expose exact commuter-cyclist segment |
-| E-bike interest | Wants less effort and longer range | e-bike keywords, e-bike review placements, e-bike product categories, custom segments from e-bike URLs | Search, YouTube, Display, PMax, SEO | Distinguish e-bike buyers from general bike users |
-| Safety-conscious buyer | Wants helmets, lights, locks | Product keywords, bundle landing page, safety guide, retargeting after product-page visits | Search, Shopping/PMax, Meta catalog, email | Message should avoid fear-based exaggeration |
-| Sport cyclist | Cares about performance | road bike, gravel, MTB, lightweight accessories, performance creator placements | Search, YouTube, creators, publishers | Smaller but potentially higher AOV |
-| Existing website visitor | Already aware | Retargeting audience, cart abandoner list, viewed category page list | Google, Meta, TikTok, CRM | Requires consent and correct tracking |
+| Research signal | Evidence label | Consumer meaning | Platform proxy | Channels where usable | Required validation | Caveats |
+|---|---|---|---|---|---|---|
+| syn_hu_cycling_001: synthetic panel suggests urban commuters prefer convenience and safety messages | preference_heterogeneity | Commuter cyclists may respond to time saving, locks, lights, and visibility | Budapest cycling keywords, commuter creative, lock/light category pages, cycling creator briefs | Search, Meta, TikTok, YouTube, SEO, creators | Test commuter vs generic cycling creative on qualified visit rate and add-to-cart rate | Synthetic panel is hypothesis-generating and uncalibrated |
+| beh_hu_cycling_002: helmet and light page visitors show higher add-to-cart rates | behavioral_lift | Safety gear browsing indicates near-term category interest | Retargeting pools, CRM segments, product bundles, dynamic catalog ads | Google, Meta, CRM, email | Use holdout or capped retargeting test to estimate incremental recovered revenue | Observed behavior can be confounded by baseline purchase intent |
+| Team assumption: e-bike users want longer-distance comfort | preference_heterogeneity | E-bike riders may value comfort and range support | e-bike accessory keywords, e-bike publisher placements, e-bike creator demos | Search, YouTube, Display, creators, SEO | Test e-bike accessory landing page against generic accessories page | Internal assumption needs behavioral validation |
 
 ## 5. Channel execution specs
 
-### Google Search
+### Channel: Google Search
 
 ```yaml
 role: conversion
 objective: purchases
 setup:
-  geography: Hungary; separate Budapest campaign or ad group if volume allows
-  language: Hungarian primary; English as a controlled test
+  geography: Hungary with Budapest reporting split
+  language: Hungarian primary
   audience:
     included:
-      - kerékpár
-      - bicikli
-      - bringa
-      - elektromos kerékpár
-      - e-bike
-      - városi kerékpár
       - kerékpár sisak
       - bicikli lámpa
       - kerékpár zár
-      - kerékpár szerviz Budapest
+      - elektromos kerékpár kiegészítők
     excluded:
-      - free, used-only, jobs, tutorial-only, irrelevant repair intents if not offered
+      - free
+      - jobs
+      - used-only intents if not served
   inventory_or_placement:
-    - Search results
-    - Shopping if a product feed exists
-  bid_or_budget: start with maximize conversions if purchase tracking is stable; otherwise start with controlled CPC or maximize clicks until conversion data is reliable
+    - search results
+  bid_or_budget: use controlled budget until purchase tracking is stable
   creative:
     angles:
-      - safer city riding
+      - safe city cycling
       - commuter convenience
-      - e-bike comfort
-      - accessory bundles
-      - fast national delivery
     formats:
       - responsive search ads
-      - sitelinks to helmets, locks, lights, e-bike accessories
-  landing_or_destination: Hungarian product category pages and bundle pages
+  landing_or_destination: Hungarian safety and commuter accessory pages
   measurement:
-    primary_kpi: purchase CPA or ROAS
+    primary_kpi: purchase CPA
     secondary_kpis:
-      - conversion rate
-      - search term quality
-      - new customer rate
+      - add-to-cart rate
+      - search-term quality
     tracking:
-      - purchase conversion
-      - enhanced conversions where available
-      - UTM by ad group and keyword theme
+      - purchase event
+      - UTM by keyword theme
   operating_cadence:
     daily:
-      - check spend, disapprovals, and tracking anomalies
+      - check spend and tracking
     weekly:
-      - review search terms, add negatives, split high-performing themes
+      - review search terms and negatives
+evidence_basis:
+  strongest_signal: beh_hu_cycling_002
+  evidence_label: behavioral_lift
+  activation_safety: observed_behavior
 risks:
-  - Generic cycling terms may attract low-intent traffic.
-validation_test: Compare exact/phrase high-intent accessory terms against broader cycling terms on CPA and ROAS.
+  - Broad cycling terms may pull low-intent traffic.
+validation_test: Compare safety keywords against generic cycling keywords on CPA and add-to-cart rate.
 ```
 
-### Google YouTube / Demand Gen / Display
+### Channel: Google YouTube / Demand Gen / Display
 
 ```yaml
 role: awareness and consideration
-objective: engaged sessions and assisted conversions
+objective: qualified visits and assisted conversions
 setup:
-  geography: Hungary, with Budapest reporting split
+  geography: Hungary with Budapest reporting split
   language: Hungarian creative
   audience:
     included:
       - custom segment keywords: kerékpár, bicikli, bringa, e-bike, gravel bike, mountain bike, kerékpárút, kerékpár sisak
-      - custom segment URLs: local cycling publishers, bike shops, cycling associations, e-bike review sites
       - contextual topics: cycling, outdoor recreation, fitness, urban mobility where available
       - remarketing: product-page visitors and cart abandoners
     excluded:
-      - purchasers from the last 30 to 90 days unless cross-sell is intended
-      - kids content and low-quality placements
+      - recent purchasers unless cross-sell is intended
+      - low-quality placements
   inventory_or_placement:
-    - YouTube in-stream / Shorts where appropriate
+    - YouTube short video
     - Demand Gen feed placements
     - Display contextual placements
-  bid_or_budget: optimize to engaged sessions first if conversion volume is thin; use conversion bidding for remarketing and high-signal custom segments
+  bid_or_budget: optimize to qualified visit first if conversion volume is thin
   creative:
     angles:
       - commute faster in Budapest
       - ride safer after dark
       - e-bike accessories for longer trips
-      - weekend cycling essentials
     formats:
-      - 6 to 15 second video
-      - short product demo
+      - short video
       - static bundle image
-      - carousel where available
-  landing_or_destination: segmented landing pages for commuter, safety, e-bike, and sport accessories
+  landing_or_destination: commuter, safety, e-bike, and sport accessory pages
   measurement:
-    primary_kpi: assisted conversion CPA or qualified visit rate
+    primary_kpi: qualified visit rate
     secondary_kpis:
-      - view rate
+      - assisted conversions
       - CTR
-      - engaged sessions
       - remarketing pool growth
     tracking:
-      - UTM content by creative angle
+      - UTM by creative angle
       - video engagement audiences
   operating_cadence:
     daily:
       - monitor spend and poor placements
     weekly:
-      - refresh weak creatives and review placement reports
+      - review placement reports and refresh weak creatives
+evidence_basis:
+  strongest_signal: syn_hu_cycling_001
+  evidence_label: preference_heterogeneity
+  activation_safety: hypothesis
 risks:
-  - Interest segments can overreach into general sports traffic.
-validation_test: Test custom keyword segment vs contextual cycling placements vs remarketing on qualified visit rate and assisted conversion rate.
+  - Interest and contextual segments can overreach into general sports traffic.
+validation_test: Test custom keyword segment vs contextual cycling placements vs remarketing on qualified visit rate.
 ```
 
-### Performance Max
+### Channel: Meta and Instagram
 
 ```yaml
-role: conversion scaling
-objective: purchases or ROAS
+role: awareness and retargeting
+objective: purchases and add-to-cart events
 setup:
   geography: Hungary
-  language: Hungarian
-  audience:
-    included:
-      - audience signal: cycling custom segment
-      - audience signal: product page visitors
-      - search themes: kerékpár, bicikli, e-bike, kerékpár sisak, kerékpár zár, bicikli lámpa
-    excluded:
-      - unavailable product categories
-      - non-service regions if delivery is limited
-  inventory_or_placement:
-    - Search, Shopping, YouTube, Display, Discover, Gmail depending on availability and setup
-  bid_or_budget: maximize conversion value or target ROAS after purchase tracking and feed quality are stable
-  creative:
-    angles:
-      - bundles
-      - delivery
-      - safety
-      - commute convenience
-    formats:
-      - asset groups by commuter, safety, e-bike, sport
-  landing_or_destination: product feed and category URLs; avoid sending all traffic to the homepage
-  measurement:
-    primary_kpi: ROAS
-    secondary_kpis:
-      - purchase volume
-      - new customer value
-      - category-level margin
-    tracking:
-      - purchase value
-      - product feed diagnostics
-      - campaign asset reporting
-  operating_cadence:
-    daily:
-      - check feed errors and budget pacing
-    weekly:
-      - review asset group performance and search term insights where available
-risks:
-  - Audience signals guide the model but do not hard-restrict delivery.
-validation_test: Compare PMax with cycling-specific asset groups against generic all-products PMax on ROAS and new-customer rate.
-```
-
-### Meta: Facebook and Instagram
-
-```yaml
-role: awareness, consideration, retargeting
-objective: purchases or landing-page views depending on tracking maturity
-setup:
-  geography: Hungary; Budapest split if budget allows
   language: Hungarian
   audience:
     included:
       - broad Hungary audience with cycling creative
-      - cycling and outdoor interest proxies where available
-      - lookalikes from purchasers or high-quality visitors if data volume allows
-      - retargeting: viewed product, added to cart, engaged with Instagram/Facebook
+      - cycling interest proxies where available
+      - website visitor retargeting
     excluded:
-      - recent purchasers unless cross-sell campaign
-      - low-value website visitors if enough data exists
+      - recent purchasers unless cross-sell is intended
   inventory_or_placement:
     - Reels
     - Stories
     - Feed
-    - catalog ads if product feed exists
-  bid_or_budget: start with broad + creative segmentation; allocate separate budget to retargeting if audience size supports it
+  bid_or_budget: separate cold prospecting and retargeting budgets
   creative:
     angles:
-      - before/after commute friction
-      - helmet and light bundle
-      - lock quality demonstration
-      - weekend ride packing list
+      - commuter safety setup
+      - night visibility kit
     formats:
       - UGC-style short video
       - carousel
-      - product catalog
-      - social proof image
-  landing_or_destination: product category page, bundle page, or catalog shopping flow
+  landing_or_destination: safety bundle and commuter accessory pages
   measurement:
-    primary_kpi: purchase CPA or ROAS
+    primary_kpi: add-to-cart CPA
     secondary_kpis:
-      - thumb-stop rate
       - CTR
-      - add-to-cart rate
-    tracking:
-      - pixel and conversion API where available
-      - UTM by creative angle and placement
-  operating_cadence:
-    daily:
-      - monitor spend and creative fatigue
-    weekly:
-      - rotate hooks and pause weak angles
-risks:
-  - Platform interest labels may be broad; creative and post-click behavior must validate fit.
-validation_test: Broad audience with cycling creative vs interest-proxy audience vs retargeting on add-to-cart rate and CPA.
-```
-
-### TikTok
-
-```yaml
-role: discovery and demand creation
-objective: engaged visits, add-to-cart, or purchases after signal volume improves
-setup:
-  geography: Hungary
-  language: Hungarian captions and voiceover where possible
-  audience:
-    included:
-      - cycling, fitness, outdoor, commuting, e-bike, gadget, and safety content proxies where available
-      - engagement retargeting from video viewers
-      - website retargeting if pixel is active
-    excluded:
-      - recent purchasers unless cross-sell campaign
-  inventory_or_placement:
-    - short-form in-feed video
-    - creator posts or Spark Ads where available
-  bid_or_budget: small creative-test budget first; scale only winning hooks
-  creative:
-    angles:
-      - three things every Budapest cyclist needs
-      - e-bike accessory checklist
-      - night riding safety setup
-      - bike lock test
-    formats:
-      - 9:16 UGC-style video
-      - creator demonstration
-      - product checklist
-  landing_or_destination: mobile-first landing page or product page
-  measurement:
-    primary_kpi: qualified visit or add-to-cart CPA
-    secondary_kpis:
-      - hook rate
-      - video completion
-      - CTR
+      - purchase CPA
     tracking:
       - pixel
-      - UTM by hook
-      - creator code where applicable
+      - UTM by creative angle
   operating_cadence:
     daily:
-      - review creative-level spend and early engagement
+      - monitor budget and creative fatigue
     weekly:
-      - produce new hooks from comments and search terms
+      - rotate weak hooks
+evidence_basis:
+  strongest_signal: syn_hu_cycling_001
+  evidence_label: preference_heterogeneity
+  activation_safety: hypothesis
 risks:
-  - Discovery traffic may not convert immediately.
-validation_test: Test creator demo vs product checklist vs commute-problem hook on add-to-cart rate.
+  - Interest proxies may be broad.
+validation_test: Compare broad audience with cycling creative against interest-proxy audience and retargeting pools.
 ```
 
-### Local cycling publishers and communities
-
-```yaml
-role: consideration and trust
-objective: qualified referral traffic and authority building
-setup:
-  geography: Hungary
-  language: Hungarian
-  audience:
-    included:
-      - readers of cycling media
-      - members of cycling forums or Facebook groups
-      - e-bike and commuter cycling communities
-    excluded:
-      - communities where commercial posting is prohibited
-  inventory_or_placement:
-    - sponsored article
-    - newsletter placement
-    - banner or native ad
-    - buying guide contribution
-    - forum participation under community rules
-  bid_or_budget: fixed placement fees, sponsorship package, or affiliate commission
-  creative:
-    angles:
-      - commuter gear guide
-      - safety checklist
-      - e-bike accessory guide
-      - Budapest cycling essentials
-    formats:
-      - long-form article
-      - checklist PDF
-      - newsletter feature
-      - community Q&A
-  landing_or_destination: guide page with product modules and UTM tracking
-  measurement:
-    primary_kpi: qualified referral sessions and assisted revenue
-    secondary_kpis:
-      - newsletter clicks
-      - guide engagement
-      - coupon usage
-    tracking:
-      - UTM by publisher
-      - exclusive coupon code
-      - post-purchase survey
-  operating_cadence:
-    weekly:
-      - review referral quality and negotiate content follow-ups
-risks:
-  - Publisher traffic can be small but high-quality.
-validation_test: Compare sponsored guide vs newsletter placement vs banner/native ad on engaged session rate and assisted revenue.
-```
-
-### Influencers and creators
-
-```yaml
-role: trust, education, and demand creation
-objective: creator-sourced purchases and reusable creative assets
-setup:
-  geography: Hungary
-  language: Hungarian
-  audience:
-    included:
-      - urban cycling creators
-      - e-bike reviewers
-      - MTB / road / gravel creators
-      - commuter lifestyle creators
-    excluded:
-      - creators with weak Hungarian audience match
-      - inflated engagement or poor comment quality
-  inventory_or_placement:
-    - Instagram Reels
-    - TikTok videos
-    - YouTube Shorts or reviews
-    - blog reviews
-    - whitelisted paid amplification where rights are granted
-  bid_or_budget: fixed fee plus affiliate or coupon bonus; reserve usage-rights budget for paid amplification
-  creative:
-    angles:
-      - real commute setup
-      - night ride safety
-      - lock stress test
-      - e-bike trip essentials
-    formats:
-      - demo video
-      - checklist
-      - ride-along
-      - product review
-  landing_or_destination: creator landing page or product collection
-  measurement:
-    primary_kpi: creator CPA or assisted revenue
-    secondary_kpis:
-      - saves
-      - comments with purchase intent
-      - coupon use
-      - paid amplification CPA
-    tracking:
-      - UTM link
-      - creator code
-      - affiliate link
-      - post-purchase survey
-  operating_cadence:
-    weekly:
-      - review creator pipeline, content approvals, and performance
-risks:
-  - Creator audience quality varies; require audience geography screenshots and comment review.
-validation_test: Run 5 to 10 micro-creators by segment, then whitelist the top 2 creatives into paid social.
-```
-
-### CRM and retargeting
+### Channel: CRM and retargeting
 
 ```yaml
 role: conversion and retention
-objective: recover high-intent visitors and increase repeat purchase
+objective: recovered revenue and cross-sell
 setup:
   geography: Hungary where consented
   language: Hungarian
   audience:
     included:
       - cart abandoners
-      - product page viewers
+      - helmet and light page viewers
       - past purchasers for cross-sell
-      - email subscribers
     excluded:
-      - refunded orders
       - unsubscribed users
       - recent purchasers from acquisition campaigns
   inventory_or_placement:
     - email
-    - SMS if consented
-    - app push if applicable
-    - Google, Meta, TikTok retargeting
-  bid_or_budget: separate remarketing budget with frequency control
+    - dynamic retargeting
+    - abandoned-cart sequence
+  bid_or_budget: use capped remarketing budgets and frequency controls
   creative:
     angles:
-      - complete your cycling setup
-      - helmet + light bundle
-      - free shipping threshold
-      - seasonal maintenance checklist
+      - complete your safety setup
+      - helmet plus light bundle
+      - seasonal cycling checklist
     formats:
       - lifecycle email
-      - dynamic catalog ad
-      - abandoned-cart reminder
+      - catalog ad
       - product recommendation
-  landing_or_destination: cart, saved products, or personalized collection
+  landing_or_destination: saved cart, safety bundle page, or personalized collection
   measurement:
-    primary_kpi: recovered revenue
+    primary_kpi: incremental recovered revenue
     secondary_kpis:
-      - open rate
-      - click rate
       - unsubscribe rate
+      - click rate
       - frequency
     tracking:
-      - email campaign IDs
-      - pixel retargeting audiences
-      - suppression lists
+      - email campaign id
+      - pixel audience
+      - suppression list
   operating_cadence:
     daily:
       - monitor deliverability and automation errors
     weekly:
       - review revenue per recipient and fatigue
+evidence_basis:
+  strongest_signal: beh_hu_cycling_002
+  evidence_label: behavioral_lift
+  activation_safety: observed_behavior
 risks:
-  - Over-retargeting can create fatigue and inflated attribution.
-validation_test: Add a holdout group for cart recovery and compare incremental recovered revenue.
+  - Over-retargeting can inflate attribution and create fatigue.
+validation_test: Run a holdout group for cart recovery and compare incremental recovered revenue.
 ```
 
 ## 6. Experiment matrix
 
 | Test cell | Channel | Audience proxy | Creative angle | KPI | Success threshold | Next action |
 |---|---|---|---|---|---|---|
-| A | Google Search | Exact/phrase accessory keywords | Safety bundle | Purchase CPA | CPA at or below target | Expand terms and landing pages |
-| B | Google Search | Broad cycling terms | Commuter convenience | Search-term quality and CPA | Search terms remain relevant and CPA within 20 percent of target | Keep only converting broad clusters |
-| C | YouTube / Demand Gen | Custom cycling keyword + URL segment | Night riding safety | Qualified visit rate | Beats generic outdoor segment by 25 percent | Scale custom segment and test new videos |
-| D | Meta | Broad Hungary audience | UGC commute setup | Add-to-cart CPA | Beats interest audience or has higher scale at similar CPA | Move budget to broad + best creatives |
-| E | TikTok | Cycling / outdoor behavior proxy | Three essentials for Budapest cyclists | Hook rate and add-to-cart CPA | Best hook clears creative benchmark and adds to cart efficiently | Produce variants with same hook |
-| F | Creator | Hungarian cycling micro-creators | Product demonstration | Creator-sourced purchases | At least one creator beats paid social CPA after amplification | Whitelist top creator content |
-| G | CRM | Cart abandoners | Complete your setup | Incremental recovered revenue | Holdout-adjusted revenue positive | Scale automation and tune cadence |
+| A | Google Search | Safety accessory keywords | Safe city cycling | Purchase CPA | CPA at or below target | Expand exact and phrase terms |
+| B | Meta | Broad Hungary audience | Commuter safety setup | Add-to-cart CPA | Beats interest proxy at equal spend | Scale broad creative variants |
+| C | YouTube / Display | Cycling contextual placements | Night visibility kit | Qualified visit rate | Beats generic outdoor placements by 20 percent | Add publisher-specific placements |
+| D | Creator | Hungarian cycling micro-creators | Real commute setup | Creator-attributed sales | One creator clears target CPA | Whitelist best creator asset |
+| E | CRM | Cart abandoners | Complete your setup | Incremental recovered revenue | Positive holdout-adjusted revenue | Scale lifecycle sequence |
 
 ## 7. Measurement and instrumentation
 
@@ -515,11 +299,19 @@ validation_test: Add a holdout group for cart recovery and compare incremental r
 
 | Event | Definition | Source | Required setup |
 |---|---|---|---|
-| Purchase | Completed ecommerce transaction | Website | Pixel, analytics purchase event, order value, currency |
+| Purchase | Completed ecommerce order | Website | Purchase event, value, currency, order id |
 | Add to cart | Product added to cart | Website | Pixel and analytics event |
-| Product view | Cycling accessory PDP view | Website | Pixel and analytics event |
-| Qualified visit | Session with product view or minimum engagement threshold | Analytics | UTM and event tracking |
+| Qualified visit | Product view or high-engagement session | Analytics | UTM and event tracking |
 | Creator sale | Purchase from creator code or link | Ecommerce / affiliate system | Unique code, UTM, post-purchase survey |
+
+### Evidence update rules
+
+| Current evidence label | Upgrade condition | Downgrade / caution condition |
+|---|---|---|
+| preference_heterogeneity | Repeated behavioral lift in channel tests | No lift or contradictory behavior |
+| descriptive_segment_lift | Behaviorally calibrated lift | Confounding or unstable sample |
+| behavioral_lift | Treatment/control or credible quasi-experiment | Selection bias or weak instrumentation |
+| causal_hte | Replicated experiment or external validity test | Fails outside tested population |
 
 ### UTM structure
 
@@ -537,31 +329,36 @@ utm_term=<keyword_or_segment>
 |---|---|
 | Daily | Check spend, tracking, disapprovals, stock issues, broken URLs |
 | Weekly | Review search terms, creative fatigue, audience proxy performance, placement quality, creator pipeline |
-| Monthly | Reallocate budget by incremental performance, update HTE mapping, refresh landing pages and SEO priorities |
+| Monthly | Update evidence labels, HTE interpretation, and budget allocation |
 
-### Feedback loop into HTE
+### Feedback loop into HTE / segmentation
 
 ```text
-platform proxy performance
-→ compare conversion lift by audience signal and creative angle
-→ identify which proxy best represents the HTE segment
-→ update audience definition and campaign weights
+campaign result
+→ observed response by proxy signal
+→ compare with research signal and evidence label
+→ update segment definitions, creative angles, media weights, and validation priority
 ```
 
 ## 8. Prioritized launch plan
 
 | Phase | Timing | Actions | Exit criteria |
 |---|---|---|---|
-| Phase 0: foundation | Week 0 | Tracking, product feed, Hungarian landing pages, consent, UTM schema, baseline reporting | Purchase and add-to-cart tracking reliable |
-| Phase 1: intent capture | Weeks 1-2 | Google Search, Shopping or PMax if feed ready, retargeting | Stable search-term quality and first purchase benchmark |
-| Phase 2: audience expansion | Weeks 2-4 | Meta, YouTube/Demand Gen, TikTok creative tests | Identify 2 to 3 winning proxy + creative combinations |
-| Phase 3: trust channels | Weeks 3-6 | Creators, local cycling publishers, community-safe content | At least one creator or publisher proves qualified traffic or sales |
-| Phase 4: scale and retention | Week 6+ | Scale winners, CRM sequences, lookalikes, holdout testing | Incremental revenue supports larger budget |
+| Phase 0: foundation | Week 0 | Tracking, landing pages, consent, evidence audit, baseline | Events fire correctly |
+| Phase 1: intent capture | Weeks 1-2 | Google Search and retargeting | Stable search-term quality |
+| Phase 2: audience expansion | Weeks 2-4 | Meta, YouTube, Display, TikTok tests | Two proxy plus creative combinations clear thresholds |
+| Phase 3: trust channels | Weeks 3-6 | Creators and publishers | One creator or publisher proves qualified traffic |
+| Phase 4: scale and retention | Week 6+ | CRM, lookalikes, incrementality tests | Incremental revenue supports budget increase |
 
 ## 9. Quality checks
 
-- This plan uses Hungary-specific language assumptions and a Budapest reporting split.
-- The cycling audience is translated into search, interest, custom segment, contextual, creator, community, and first-party proxies.
-- Each paid channel includes geography, language, audience, creative, budget, landing, and measurement.
-- Operational channels include cadence, content format, and KPIs.
-- The plan treats platform audiences as proxies and requires validation experiments.
+- [x] The plan is country-specific.
+- [x] The audience has been translated into executable platform proxy signals.
+- [x] Each paid channel includes geography, language, audience, creative, bid/budget, landing, and measurement.
+- [x] Each operational channel includes owner actions, cadence, format, and KPI.
+- [x] Platform feature claims are current or labeled as assumptions.
+- [x] The answer avoids deterministic targeting claims unless first-party data exists.
+- [x] Compliance-sensitive targeting is conservative.
+- [x] Synthetic / LLM / survey / expert signals are visibly separated from observed behavior and causal evidence.
+- [x] causal_hte appears only with experiment, treatment/control, randomized test, or quasi-experiment evidence.
+- [x] Every research-derived targeting idea has a validation experiment before scale.

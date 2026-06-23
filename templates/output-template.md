@@ -13,6 +13,7 @@ business_context:
   target_city_or_region: <optional>
   languages: <optional>
   first_party_data: <optional>
+  research_signals: <optional>
   hte_findings: <optional>
 ```
 
@@ -25,6 +26,7 @@ business_context:
 | Business goal |  |
 | Funnel stage |  |
 | Primary activation thesis |  |
+| Evidence handling | Synthetic / LLM / survey / expert signals are treated as hypotheses unless calibrated against observed behavior or experimental evidence. |
 | Main assumptions |  |
 
 ## 2. Market and channel assumptions
@@ -35,6 +37,7 @@ business_context:
 | Main regions / cities |  |  |  |
 | Dominant digital behaviors |  |  |  |
 | Purchase journey |  |  |  |
+| Evidence availability |  |  |  |
 | Compliance / policy constraints |  |  |  |
 
 ## 3. Mainstream reach-channel map
@@ -53,11 +56,11 @@ business_context:
 | CRM / retargeting |  |  | First-party lists, lifecycle triggers, abandoned cart |  |
 | Partnerships / offline |  |  | Affiliates, clubs, events, retailers, associations |  |
 
-## 4. HTE-to-platform mapping
+## 4. Research-signal-to-platform mapping
 
-| HTE / audience signal | Consumer meaning | Platform proxy | Channels where usable | Caveats |
-|---|---|---|---|---|
-|  |  |  |  |  |
+| Research signal | Evidence label | Consumer meaning | Platform proxy | Channels where usable | Required validation | Caveats |
+|---|---|---|---|---|---|---|
+|  |  |  |  |  |  |  |
 
 ## 5. Channel execution specs
 
@@ -94,6 +97,10 @@ setup:
       - <task>
     weekly:
       - <task>
+evidence_basis:
+  strongest_signal: <research signal id or assumption>
+  evidence_label: <descriptive_segment_lift | preference_heterogeneity | behavioral_lift | causal_hte | uplift_targeting_label | working_hypothesis>
+  activation_safety: <hypothesis | observed_behavior | causal_evidence | validated_uplift_label>
 risks:
   - <risk>
 validation_test: <test design>
@@ -117,6 +124,15 @@ Repeat for each high-priority channel.
 |---|---|---|---|
 |  |  |  |  |
 
+### Evidence update rules
+
+| Current evidence label | Upgrade condition | Downgrade / caution condition |
+|---|---|---|
+| preference_heterogeneity | Repeated behavioral lift in channel tests | No lift or contradictory behavior |
+| descriptive_segment_lift | Behaviorally calibrated lift | Confounding or unstable sample |
+| behavioral_lift | Treatment/control or credible quasi-experiment | Selection bias or weak instrumentation |
+| causal_hte | Replicated experiment or external validity test | Fails outside tested population |
+
 ### UTM structure
 
 ```text
@@ -135,20 +151,20 @@ utm_term=<keyword_or_segment>
 | Weekly |  |
 | Monthly |  |
 
-### Feedback loop into HTE
+### Feedback loop into HTE / segmentation
 
 ```text
 campaign result
 → observed response by proxy signal
-→ compare with HTE segment prediction
-→ update segment definitions, creative angles, and media weights
+→ compare with research signal and evidence label
+→ update segment definitions, creative angles, media weights, and validation priority
 ```
 
 ## 8. Prioritized launch plan
 
 | Phase | Timing | Actions | Exit criteria |
 |---|---|---|---|
-| Phase 0: foundation |  | Tracking, landing pages, consent, baseline |  |
+| Phase 0: foundation |  | Tracking, landing pages, consent, evidence audit, baseline |  |
 | Phase 1: intent capture |  | Search, marketplace search, high-intent SEO |  |
 | Phase 2: audience expansion |  | Paid social, video, display, contextual |  |
 | Phase 3: trust channels |  | Creators, communities, partnerships |  |
@@ -163,3 +179,6 @@ campaign result
 - [ ] Platform feature claims are current or labeled as assumptions.
 - [ ] The answer avoids deterministic targeting claims unless first-party data exists.
 - [ ] Compliance-sensitive targeting is conservative.
+- [ ] Synthetic / LLM / survey / expert signals are visibly separated from observed behavior and causal evidence.
+- [ ] causal_hte appears only with experiment, treatment/control, randomized test, or quasi-experiment evidence.
+- [ ] Every research-derived targeting idea has a validation experiment before scale.
